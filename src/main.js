@@ -10,6 +10,7 @@ function calculateSimpleRevenue(purchase, _product) {
 	// _product — это продукт из коллекции data.products
 	const { discount, sale_price, quantity } = purchase;
 	return sale_price * quantity * (1 - (discount || 0) / 100);
+	return +revenue.toFixed(2); // Округление до сотых
 }
 
 /**
@@ -30,6 +31,7 @@ function calculateBonusByProfit(index, total, seller) {
 		return 0; // 0 для последнего места
 	} else {
 		return seller.profit * 0.05; // 5% для всех остальных
+		return +bonus.toFixed(2); // Округление до сотых
 	}
 }
 
@@ -80,15 +82,13 @@ function analyzeSalesData(data, options) {
 			const product = productIndex[item.sku];
 			if (!product) return;
 
-			const cost = product.purchase_price * item.quantity;
-			const revenue = calculateRevenue(item, product);
-			const profit = revenue - cost;
-
-			seller.revenue += revenue;
-			seller.profit += profit;
+			const cost = +(product.purchase_price * item.quantity).toFixed(2);
+			const revenue = +calculateRevenue(item, product).toFixed(2);
+			const profit = +(revenue - cost).toFixed(2);
 
 			seller.revenue = +(seller.revenue + revenue).toFixed(2);
 			seller.profit = +(seller.profit + profit).toFixed(2);
+
 
 			// Учет проданных товаров
 			if (!seller.products_sold[item.sku]) {
