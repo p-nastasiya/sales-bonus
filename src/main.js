@@ -31,7 +31,7 @@ function calculateBonusByProfit(index, total, seller) {
 		return 0; // 0 для последнего места
 	} else {
 		return seller.profit * 0.05; // 5% для всех остальных
-		return +bonus.toFixed(2); // Округление до сотых
+
 	}
 }
 
@@ -83,7 +83,7 @@ function analyzeSalesData(data, options) {
 			if (!product) return;
 
 			const cost = product.purchase_price * item.quantity;
-			const revenue = +calculateRevenue(item, product).toFixed(2);
+			const revenue = calculateRevenue(item, product);
 			const profit = revenue - cost;
 
 			seller.revenue = +(seller.revenue + revenue).toFixed(2);
